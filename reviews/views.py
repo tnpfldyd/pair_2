@@ -54,6 +54,7 @@ def create(request):
         # new_review = review_form.save()
         # new_review.movie_name =
         # new_review.save()
+        review_form.save()
 
         return redirect("reviews:detail")  # 나중에 댓글 상세보기 페이지로 이동
 
