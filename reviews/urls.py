@@ -10,4 +10,5 @@ urlpatterns = [
     path("<int:review_pk>/review_detail", views.review_detail, name="review_detail"),  # 리뷰 상세보기 페이지
     path("<int:review_pk>/delete/", views.delete, name="delete"),  # 리뷰 삭제
     path("<int:review_pk>/review_edit", views.edit, name="edit"),  # 리뷰 수정
+    path("search/", views.search, name="search"),  # 영화 검색
 ]

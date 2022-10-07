@@ -85,3 +85,12 @@ def review_detail(request, review_pk):
         "info": info,
     }
     return render(request, "reviews/review_detail.html", context)
+
+
+def search(request):
+    id = request.GET
+    contents = Movie.objects.filter(title__contains=id["title"])
+    context = {
+        "contents": contents,
+    }
+    return render(request, "reviews/search.html", context)
