@@ -29,7 +29,6 @@ def movie_register(request):
 def detail(request, movie_pk):
     info = Movie.objects.get(pk=movie_pk)
     review = Review.objects.filter(movie_id=info.pk)
-
     context = {
         "info": info,
         "reviews": review,

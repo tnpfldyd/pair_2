@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load static %}
 <!-- 영화 정보 -->
 <div class="d-flex">
-  <img class="rounded" src="{{info.img}}" alt="" style="height: 500px;">
+  {% if 'jpg' in info.img %}
+    <img src="{{ info.img }}" class="card-img-top" style="width: 350px; height: 500px;">
+  {% else %}
+    <img src="{% static 'logo.jpg' %}" class="card-img-top" style="width: 350px; height: 500px;">
+  {% endif %}
   <div class="text-white ms-5">
     <h1>{{info.title}}</h1>
     <p class="mt-5">{{info.summary}}</p>
@@ -27,7 +32,7 @@
   <tbody class="table-dark">
     {% for review in reviews %}
       <tr onclick="" style="vertical-align: middle;">
-        <th scope="row">{{ review.pk }}</th>
+        <th scope="row">{{ forloop.counter }}</th>
         <td><a href="{% url 'reviews:review_detail' review.pk %}" class="text-decoration-none">{{ review.title }}</a></td>
         <td>{{ review.created_at|date:'Y-m-d H:i' }}</td>
         <td>{{ review.updated_at|date:'Y-m-d H:i' }}</td>
