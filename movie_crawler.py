@@ -1,61 +1,70 @@
 import os
 from urllib.parse import urlparse
-
+from urllib.request import urlopen
+import re
 import django
 import requests
 from bs4 import BeautifulSoup
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','pair_pjt.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pair_pjt.settings')
 django.setup()
 
 from reviews.models import Movie
 
-def get_movie_data():
-    result = []
-    url = 'https://movie.naver.com/movie/sdb/rank/rmovie.naver?sel=cur&date=20221006'
-    response = requests.get(url)
-    html = response.text
-    soup = BeautifulSoup(html,'html.parser')
-    print(soup)
+url = 'https://movie.naver.com/movie/running/current.naver'
 
-    web_page_link_root = 'https://movie.naver.com/'
-    list_items = soup.find_all('div')
+req = urlopen(url)
+byte_data = req.read()
 
-    for item in list_items:
+text_data = byte_data.decode("utf-8")
 
-        title = item.find('meta[property="og:title"]')['content']
-        img = item.find('meta[property="og:image"]')['content']
-        description = item.find('meta[property="og:description"]')['content']
-        running_time = item.find('meta[property="og:title"]')['content']
+html = BeautifulSoup(text_data, 'html.parser')
 
-        item_obj ={
-            'title':title,
-            'img':img,
-            'description':description,
-            'running_time':running_time,
+movie_list = html.select('div[class="lst_wrap"] > ul[class="lst_detail_t1"] > li', limit=30)
 
-        }
+base_url = 'https://movie.naver.com'
+urls = []
+for li in movie_list:
+    a_tag = li.select_one('div[class="thumb"] > a')
+    urls.append(base_url + a_tag.get('href'))
 
-        print(item_obj)
-        result.append(item_obj)
+
+
+def get_movie_data(url):
+
+    request = urlopen(url)
+    byte_data = request.read()
+    text_data = byte_data.decode("utf-8")
+    html = BeautifulSoup(text_data, 'html.parser')
+    soup = html.find("div", class_="poster")
+
+    title = html.select_one('div[class="mv_info"] > h3[class="h_movie"] > a').string
+    summary = html.select_one('div[class="story_area"] > p').text
+    img = soup.find('img')["src"]
+    context = {
+        'title':title,
+        'summary':summary,
+        'img':img,
+    }
+
+    return context
+
+
+
+
+def add_data():
+    result =[]
+
+    for url in urls:
+        tmp = get_movie_data(url)
+        result.append(tmp)
+
+
+    for item in result:
+        Movie(title=item['title'],
+              img=item['img'],
+              summary=item['summary'],).save()
 
     return result
 
-if __name__ == '__main__':
-    get_movie_data()
-
-def add_data(data):
-
-    db_object=[]
-    for item in data:
-        db_object.append(item)
-    db_object.reverse()
-
-    for item in db_object:
-        print("테스트 성공")
-        Movie(title=item['title'],
-              img=item['img'],
-              summary=item['description'],
-              running_time=item['running_time']).save()
-
-    return db_object
+add_data()
