@@ -26,7 +26,8 @@ def movie_register(request):
 
 
 # 영화 상세 페이지
-def detail(request, pk):
+# def detail(request, pk):
+def detail(request):
     # info = Movie.objects.get(pk=pk)
     # review = Review.objects.get(movie_name=info.title)
 
@@ -42,7 +43,7 @@ def detail(request, pk):
         "reviews": reviews,
     }
 
-    return render(request, "movies/detail.html", context)
+    return render(request, "reviews/detail.html", context)
 
 
 # 리뷰 작성 페이지
@@ -54,7 +55,7 @@ def create(request):
         # new_review.movie_name =
         # new_review.save()
 
-        return redirect("reviews:index")  # 나중에 댓글 상세보기 페이지로 이동
+        return redirect("reviews:detail")  # 나중에 댓글 상세보기 페이지로 이동
 
     context = {
         "review_form": review_form,
@@ -63,4 +64,8 @@ def create(request):
     return render(request, "reviews/create.html", context)
 
 
-#
+# 리뷰 삭제
+def delete(request, review_pk):
+    Review.objects.get(pk=review_pk).delete()
+
+    return redirect("reviews:detail")
