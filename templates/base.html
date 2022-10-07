@@ -36,7 +36,11 @@
           <a class="nav-link" aria-current="page" href="{% url 'reviews:index' %}">main</a>
         </div>
       </div>
-      <div class="text-end">
+      <div class="d-flex text-end">
+        <form action="{% url 'reviews:search' %}" class="mx-3 my-0">
+          <input class="rounded mx-1" rows="1" name="title">
+          <input type="submit" class="btn btn-outline-dark" value="검색">
+        </form>
         <a href="{% url 'reviews:movie_register' %}" class="btn btn-primary">영화 등록</a>
       </div>
     </div>
