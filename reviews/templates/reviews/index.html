@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href="{% url 'reviews:movie_register' %}">영화 등록</a>
+<div class="container d-flex row">
+  {% for content in contents %}
+    <div class="card col-4 m-2 p-0" style="width: 18rem;">
+      <a href="{{ content.pk }}" class="text-decoration-none">
+        <img src="{{ content.img }}" class="card-img-top" style="height: 400px;">
+        <div class="card-body">
+          <p class="card-text text-center fw-bold">{{ content.title }}</p>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
 {% endblock %}

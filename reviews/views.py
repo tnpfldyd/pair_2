@@ -4,7 +4,11 @@ from .forms import MovieForm, ReviewForm
 
 # Create your views here.
 def index(request):
-    return render(request, "reviews/index.html")
+    contents = Movie.objects.all()
+    context = {
+        "contents": contents,
+    }
+    return render(request, "reviews/index.html", context)
 
 
 def movie_register(request):
@@ -30,12 +34,12 @@ def detail(request, pk):
     #     "info": info,
     #     "review": review,
     # }
-    
+
     # 임시 데이터
     reviews = Review.objects.all()
 
     context = {
-        'reviews': reviews,
+        "reviews": reviews,
     }
 
     return render(request, "movies/detail.html", context)
@@ -47,16 +51,16 @@ def create(request):
 
     if review_form.is_valid():
         # new_review = review_form.save()
-        # new_review.movie_name = 
+        # new_review.movie_name =
         # new_review.save()
 
-        return redirect('reviews:index')    # 나중에 댓글 상세보기 페이지로 이동
+        return redirect("reviews:index")  # 나중에 댓글 상세보기 페이지로 이동
 
     context = {
-        'review_form': review_form,
+        "review_form": review_form,
     }
 
-    return render(request, 'reviews/create.html', context)
-        
+    return render(request, "reviews/create.html", context)
 
-# 
+
+#
