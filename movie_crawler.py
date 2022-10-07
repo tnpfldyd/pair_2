@@ -2,6 +2,7 @@ import os
 from urllib.parse import urlparse
 from urllib.request import urlopen
 import django
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -45,11 +46,12 @@ def get_movie_data(url):
     summary = html.select_one('div[class="story_area"] > p').text
     img = soup.find('img')["src"]
 
+
     # dictionary로 저장
     context = {
         'title':title,
         'summary':summary,
-        'img':img,
+        'img':img[:-15],
     }
 
     return context
