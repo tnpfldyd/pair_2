@@ -6,7 +6,7 @@ from django.db import models
 class Movie(models.Model):
     title = models.CharField(max_length=30)
     summary = models.TextField()
-    img = models.ImageField()
+    img = models.TextField()
 
 
 class Review(models.Model):

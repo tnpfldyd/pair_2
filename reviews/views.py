@@ -41,13 +41,12 @@ def detail(request, movie_pk):
 def create(request, movie_pk):
     review_form = ReviewForm(request.POST or None)
     info = Movie.objects.get(pk=movie_pk)
+    print(info)
+    print(review_form)
     if review_form.is_valid():
-        # new_review = review_form.save()
-        # new_review.movie_name =
-        # new_review.save()
-        # review_form.mo
-        review_form.save()
-
+        new_review = review_form.save()
+        new_review.movie_name = info.title
+        new_review.save()
         return redirect("reviews:detail")  # 나중에 댓글 상세보기 페이지로 이동
 
     context = {
