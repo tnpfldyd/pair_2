@@ -58,9 +58,10 @@ def create(request, movie_pk):
 
 # 리뷰 삭제
 def delete(request, review_pk):
-    Review.objects.get(pk=review_pk).delete()
-
-    return redirect("reviews:detail")
+    review = Review.objects.get(pk=review_pk)
+    movie_id = review.movie_id
+    review.delete()
+    return redirect("reviews:detail",movie_id)
 
 
 def edit(request, review_pk):

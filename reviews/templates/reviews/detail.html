@@ -41,7 +41,7 @@
           <a class="btn btn-primary" href="{% url 'reviews:edit' review.pk %}">수정</a>
           <form class='m-0' action="{% url 'reviews:delete' review.pk %}" method="POST">
             {% csrf_token %}
-            <a type="submit" class="btn btn-danger ms-2">삭제</a>
+            <button type="submit" class="btn btn-danger ms-2">삭제</button>
           </form>
         </td>
       </tr>
