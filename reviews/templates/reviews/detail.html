@@ -10,7 +10,7 @@
   </div>
 </div>
 <!-- 리뷰 게시글 -->
-<div class="text-end mb-3">
+<div class="text-end my-3">
   <a href="{% url 'reviews:create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
 </div>
 
@@ -26,17 +26,17 @@
   </thead>
   <tbody class="table-dark">
     {% for review in reviews %}
-      <tr onclick="" style="vertical-align: middle;"></tr>  
+      <tr onclick="" style="vertical-align: middle;">
         <th scope="row">{{ review.pk }}</th>
         <td><a href="{% url 'reviews:review_detail' review.pk %}" class="text-decoration-none">{{ review.title }}</a></td>
         <td>{{ review.created_at|date:'Y-m-d H:i' }}</td>
         <td>{{ review.updated_at|date:'Y-m-d H:i' }}</td>
         <td class="d-flex h-auto justify-content-end">
 
-          <a class="btn btn-outline-primary" href="{% url 'reviews:edit' review.pk %}">수정</a>
+          <a class="btn btn-primary" href="{% url 'reviews:edit' review.pk %}">수정</a>
           <form class='m-0' action="{% url 'reviews:delete' review.pk %}" method="POST">
             {% csrf_token %}
-            <a type="submit" class="btn btn-outline-danger ms-2">삭제</a>
+            <a type="submit" class="btn btn-danger ms-2">삭제</a>
           </form>
         </td>
       </tr>
