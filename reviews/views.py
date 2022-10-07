@@ -28,11 +28,11 @@ def movie_register(request):
 # 영화 상세 페이지
 def detail(request, movie_pk):
     info = Movie.objects.get(pk=movie_pk)
-    review = Review.objects.filter(movie_name=info.title)
+    review = Review.objects.filter(movie_id=info.pk)
 
     context = {
         "info": info,
-        "review": review,
+        "reviews": review,
     }
     return render(request, "reviews/detail.html", context)
 
@@ -41,14 +41,13 @@ def detail(request, movie_pk):
 def create(request, movie_pk):
     review_form = ReviewForm(request.POST or None)
     info = Movie.objects.get(pk=movie_pk)
-    if review_form.is_valid():
-        # new_review = review_form.save()
-        # new_review.movie_name =
-        # new_review.save()
-        # review_form.mo
-        review_form.save()
 
-        return redirect("reviews:detail")  # 나중에 댓글 상세보기 페이지로 이동
+    if review_form.is_valid():
+        new = review_form.save(commit=False)
+        new.movie_id = info.pk
+        new.movie_name = info.title
+        new.save()
+        return redirect("reviews:detail", info.pk)  # 나중에 댓글 상세보기 페이지로 이동
 
     context = {
         "review_form": review_form,
@@ -62,3 +61,27 @@ def delete(request, review_pk):
     Review.objects.get(pk=review_pk).delete()
 
     return redirect("reviews:detail")
+
+
+def edit(request, review_pk):
+    info = Review.objects.get(pk=review_pk)
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST, instance=info)
+        if review_form.is_valid():
+            review_form.save()
+            return redirect("reviews:review_detail", info.pk)
+    else:
+        review_form = ReviewForm(instance=info)
+    context = {
+        "review_form": review_form,
+    }
+
+    return render(request, "reviews/review_edit.html", context)
+
+
+def review_detail(request, review_pk):
+    info = Review.objects.get(pk=review_pk)
+    context = {
+        "info": info,
+    }
+    return render(request, "reviews/review_detail.html", context)

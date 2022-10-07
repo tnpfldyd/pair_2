@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load django_bootstrap5 %}
+    <div class="container text-white ">
+        <h1 class="text-white">{{ info.title }}</h1>
+        <div class="col">
+            {{ info.created_at }}
+        </div>
+        <div class="col">
+            {{ info.star }}
+        </div>
+        <div class="col">
+            {{ info.content }}
+        </div>
+    </div>
+{% endblock %}

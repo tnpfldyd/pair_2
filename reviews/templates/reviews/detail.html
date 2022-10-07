@@ -2,7 +2,13 @@
 
 {% block content %}
 <!-- 영화 정보 -->
-
+<div class="d-flex">
+  <img class="rounded" src="{{info.img}}" alt="" style="height: 500px;">
+  <div class="text-white ms-5">
+    <h1>{{info.title}}</h1>
+    <p class="mt-5">{{info.summary}}</p>
+  </div>
+</div>
 <!-- 리뷰 게시글 -->
 <div class="text-end mb-3">
   <a href="{% url 'reviews:create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
@@ -18,19 +24,19 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="table-dark">
     {% for review in reviews %}
-      <!-- <tr onclick="goToDetail({{ review.pk }})" style="vertical-align: middle;"> -->
       <tr onclick="" style="vertical-align: middle;"></tr>  
         <th scope="row">{{ review.pk }}</th>
-        <td>{{ review.title }}</td>
+        <td><a href="{% url 'reviews:review_detail' review.pk %}" class="text-decoration-none">{{ review.title }}</a></td>
         <td>{{ review.created_at|date:'Y-m-d H:i' }}</td>
         <td>{{ review.updated_at|date:'Y-m-d H:i' }}</td>
-        <td class="d-flex">
-          <a class="btn btn-outline-primary" href="">수정</a>
-          <form action="{% url 'reviews:delete' review.pk %}" method="POST">
+        <td class="d-flex h-auto justify-content-end">
+
+          <a class="btn btn-outline-primary" href="{% url 'reviews:edit' review.pk %}">수정</a>
+          <form class='m-0' action="{% url 'reviews:delete' review.pk %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger ms-2">삭제</button>
+            <a type="submit" class="btn btn-outline-danger ms-2">삭제</a>
           </form>
         </td>
       </tr>
