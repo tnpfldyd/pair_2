@@ -26,9 +26,10 @@
         <td>{{ review.title }}</td>
         <td>{{ review.created_at|date:'Y-m-d H:i' }}</td>
         <td>{{ review.updated_at|date:'Y-m-d H:i' }}</td>
-        <td>
+        <td class="d-flex">
           <a class="btn btn-outline-primary" href="">수정</a>
           <form action="{% url 'reviews:delete' review.pk %}" method="POST">
+            {% csrf_token %}
             <button type="submit" class="btn btn-outline-danger ms-2">삭제</button>
           </form>
         </td>
