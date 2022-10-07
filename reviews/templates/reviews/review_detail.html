@@ -1,26 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<<<<<<< HEAD
-    {% load django_bootstrap5 %}
-    <div class="container text-white ">
-        <h1 class="text-white">{{ info.title }}</h1>
-        <div class="col">
-            {{ info.created_at }}
-        </div>
-        <div class="col">
-            {{ info.star }}
-        </div>
-        <div class="col">
-            {{ info.content }}
-        </div>
-    </div>
-=======
 {% load django_bootstrap5 %}
-<h1 class="text-white">{{ info.title}}</h1>
-<p class="text-white">{{ info.content}}
-    {{info.grade}}
-    {{info.created_at}}
-    {{info.updated_at}}
-</p>
->>>>>>> 6079c1b09d966ebf14b3d39f9e9bebfb709433c6
+<div class="container text-white ">
+  <h1 class="text-white">{{ info.title }}</h1>
+  <div class="col">
+      {{ info.created_at }}
+  </div>
+  <div class="col">
+      {{ info.star }}
+      {{ info.grade }}
+  </div>
+  <div class="col">
+      {{ info.content }}
+</div>
+
 {% endblock %}

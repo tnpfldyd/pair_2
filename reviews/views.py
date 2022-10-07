@@ -46,6 +46,7 @@ def create(request, movie_pk):
         new = review_form.save(commit=False)
         new.movie_id = info.pk
         new.movie_name = info.title
+        new.grade = len(new.star)
         new.save()
         return redirect("reviews:detail", info.pk)  # 나중에 댓글 상세보기 페이지로 이동
 
