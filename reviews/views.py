@@ -61,7 +61,7 @@ def delete(request, review_pk):
     review = Review.objects.get(pk=review_pk)
     movie_id = review.movie_id
     review.delete()
-    return redirect("reviews:detail",movie_id)
+    return redirect("reviews:detail", movie_id)
 
 
 def edit(request, review_pk):
@@ -69,7 +69,9 @@ def edit(request, review_pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST, instance=info)
         if review_form.is_valid():
-            review_form.save()
+            new = review_form.save(commit=False)
+            new.grade = len(new.star)
+            new.save()
             return redirect("reviews:review_detail", info.pk)
     else:
         review_form = ReviewForm(instance=info)
